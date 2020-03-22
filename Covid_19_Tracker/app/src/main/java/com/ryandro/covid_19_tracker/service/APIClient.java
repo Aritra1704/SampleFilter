@@ -25,7 +25,7 @@ public class APIClient {
 
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("" + ServiceURL.MAIN_URL)
+                .baseUrl(ServiceURL.MAIN_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();

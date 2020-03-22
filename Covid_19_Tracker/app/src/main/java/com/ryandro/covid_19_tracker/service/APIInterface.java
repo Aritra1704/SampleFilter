@@ -10,7 +10,7 @@ import retrofit2.http.GET;
  */
 
 public interface APIInterface {
-    @GET("/Coronavirus_2019_nCoV_Cases/FeatureServer/1/query?where=1%3D1&outFields=*&outSR=4326&f=json")
+    @GET("Coronavirus_2019_nCoV_Cases/FeatureServer/1/query?where=1%3D1&outFields=*&outSR=4326&f=json")
     Call<MainResponseObj> getAllInfoFromServer();
 
 /*    @GET("/flytta_api/v0.1/portal/property/findserviceid/{service_id}")

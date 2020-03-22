@@ -8,20 +8,26 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.ryandro.covid_19_tracker.R;
+import com.ryandro.covid_19_tracker.adapter.CountryAdapter;
+import com.ryandro.covid_19_tracker.model.Feature;
 import com.ryandro.covid_19_tracker.model.MainResponseObj;
 import com.ryandro.covid_19_tracker.service.APIClient;
 import com.ryandro.covid_19_tracker.service.APIInterface;
 import com.ryandro.covid_19_tracker.utils.NetworkUtility;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,9 +37,10 @@ public class DashBoardActivity extends AppCompatActivity implements NavigationVi
     private Toolbar mToolbar;
     private FloatingActionButton mFabButton;
     private NavigationView mNavigationView;
-    private ProgressDialog mProgressDialog;
+    private LinearLayout llLoading;
     private APIInterface apiInterface = null;
-    private TextView tv_data;
+    private RecyclerView rvList;
+    private CountryAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +54,7 @@ public class DashBoardActivity extends AppCompatActivity implements NavigationVi
 
     private void getInfoFromServer() {
         if (NetworkUtility.isNetworkAvailable(DashBoardActivity.this)) {
-            displayProgressDialog(getString(R.string.PleaseWait));
+            displayProgressDialog();
             Call<MainResponseObj> call = apiInterface.getAllInfoFromServer();
             call.enqueue(new Callback<MainResponseObj>() {
                 @Override
@@ -73,7 +80,8 @@ public class DashBoardActivity extends AppCompatActivity implements NavigationVi
 
     private void refreshViewData(MainResponseObj mainResponseObj) {
         Log.d("Main Data", new Gson().toJson(mainResponseObj).toString());
-        tv_data.setText(new Gson().toJson(mainResponseObj).toString());
+        adapter.refresh(mainResponseObj.getFeatures());
+//        tv_data.setText(new Gson().toJson(mainResponseObj).toString());
     }
 
     private void bindControl() {
@@ -83,8 +91,6 @@ public class DashBoardActivity extends AppCompatActivity implements NavigationVi
             @Override
             public void onClick(View view) {
                 getInfoFromServer();
-/*                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
             }
         });
 
@@ -103,9 +109,13 @@ public class DashBoardActivity extends AppCompatActivity implements NavigationVi
 
         mFabButton = (FloatingActionButton) findViewById(R.id.fab);
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
-        tv_data = (TextView) findViewById(R.id.tv_data);
+        llLoading = (LinearLayout) findViewById(R.id.llLoading);
+        rvList = (RecyclerView) findViewById(R.id.rvList);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
+
+        adapter = new CountryAdapter(this, new ArrayList<Feature>());
+        rvList.setAdapter(adapter);
     }
 
     private void setStatusBarColor() {
@@ -169,22 +179,13 @@ public class DashBoardActivity extends AppCompatActivity implements NavigationVi
         return true;
     }
 
-    private void displayProgressDialog(String message) {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.setMessage(message);
-        } else {
-            mProgressDialog = new ProgressDialog(DashBoardActivity.this);
-            mProgressDialog.setMax(100);
-            mProgressDialog.setMessage(getString(R.string.PleaseWait));
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.setMessage(message);
-            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            mProgressDialog.show();
-        }
-
+    private void displayProgressDialog() {
+        llLoading.setVisibility(View.VISIBLE);
+        rvList.setVisibility(View.GONE);
     }
 
     private void hideProgressDialog() {
-        mProgressDialog.dismiss();
+        llLoading.setVisibility(View.GONE);
+        rvList.setVisibility(View.VISIBLE);
     }
 }

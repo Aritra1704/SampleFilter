@@ -17,7 +17,7 @@ public class Attributes {
     private String countryRegion;
     @SerializedName("Last_Update")
     @Expose
-    private Integer lastUpdate;
+    private long lastUpdate;
     @SerializedName("Lat")
     @Expose
     private Double lat;
@@ -58,13 +58,7 @@ public class Attributes {
         this.countryRegion = countryRegion;
     }
 
-    public Integer getLastUpdate() {
-        return lastUpdate;
-    }
 
-    public void setLastUpdate(Integer lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
 
     public Double getLat() {
         return lat;
@@ -106,4 +100,11 @@ public class Attributes {
         this.deaths = deaths;
     }
 
+    public long getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(long lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
 }
