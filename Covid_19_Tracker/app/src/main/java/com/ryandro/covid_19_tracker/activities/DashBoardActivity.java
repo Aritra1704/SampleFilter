@@ -35,7 +35,6 @@ public class DashBoardActivity extends AppCompatActivity implements NavigationVi
     private APIInterface apiInterface = null;
     private TextView tv_data;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
