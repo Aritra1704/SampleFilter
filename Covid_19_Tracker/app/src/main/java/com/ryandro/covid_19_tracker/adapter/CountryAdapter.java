@@ -22,12 +22,13 @@ public class CountryAdapter extends  RecyclerView.Adapter<CountryAdapter.UserHol
 
     public class UserHolder extends RecyclerView.ViewHolder {
         TextView tvCountry;
-        TextView tvPasscode;
+        TextView tvCountryCount;
 
 
         public UserHolder(View view) {
             super(view);
             tvCountry = view.findViewById(R.id.tvCountry);
+            tvCountryCount = view.findViewById(R.id.tvCountryCount);
         }
     }
 
@@ -53,7 +54,7 @@ public class CountryAdapter extends  RecyclerView.Adapter<CountryAdapter.UserHol
     @Override
     public void onBindViewHolder(UserHolder holder, int position) {
         holder.tvCountry.setText(features.get(position).getAttributes().getCountryRegion());
-//        holder.tvPasscode.setText(mainResponseObjs.get(position).getPasscode() + "");
+        holder.tvCountryCount.setText(features.get(position).getAttributes().getConfirmed() + "");
     }
 
     @Override
