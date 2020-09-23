@@ -9,7 +9,7 @@
         android:id="@+id/HomeFragment"
         android:name="com.arpaul.samplefilter.HomeFragment"
         android:label="@string/home_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/fragment_home">
 
         <action
             android:id="@+id/dashboard_filter_frag"
@@ -17,9 +17,9 @@
     </fragment>
     <fragment
         android:id="@+id/ListFragment"
-        android:name="com.arpaul.samplefilter.ListFragment"
+        android:name="com.arpaul.samplefilter.AccountFragment"
         android:label="@string/list_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/fragment_account_list">
 
         <action
             android:id="@+id/filter_dashboard_frag"
