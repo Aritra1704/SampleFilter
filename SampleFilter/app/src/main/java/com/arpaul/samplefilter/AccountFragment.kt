@@ -32,19 +32,21 @@ class AccountFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_account_list, container, false)
+        val rootview = inflater.inflate(R.layout.fragment_account_list, container, false)
 
+        val view = rootview.findViewById<RecyclerView>(R.id.list)
         // Set the adapter
         if (view is RecyclerView) {
             with(view) {
-                layoutManager = when {
+                val layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyAccountDetRecyclerViewAdapter(DummyContent.ITEMS)
+                val adapter = MyAccountDetRecyclerViewAdapter(DummyContent.ITEMS)
+                view.adapter = adapter
             }
         }
-        return view
+        return rootview
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
