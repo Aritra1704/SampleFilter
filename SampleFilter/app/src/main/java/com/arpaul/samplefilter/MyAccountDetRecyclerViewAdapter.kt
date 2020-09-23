@@ -6,15 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 
-import com.arpaul.samplefilter.dummy.DummyContent.DummyItem
+import com.arpaul.samplefilter.dummy.DummyContent.AccountDetail
 
 /**
- * [RecyclerView.Adapter] that can display a [DummyItem].
+ * [RecyclerView.Adapter] that can display a [AccountDetail].
  * TODO: Replace the implementation with code for your data type.
  */
 class MyAccountDetRecyclerViewAdapter(
-    private val values: List<DummyItem>
+    private val values: List<AccountDetail>
 ) : RecyclerView.Adapter<MyAccountDetRecyclerViewAdapter.ViewHolder>() {
+
+    private var accountList = values
+
+    fun refresh(newValues: List<AccountDetail>) {
+        accountList = newValues
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -23,12 +30,12 @@ class MyAccountDetRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
-        holder.idView.text = item.id
-        holder.contentView.text = item.content
+        val item = accountList[position]
+        holder.idView.text = (position + 1).toString()
+        holder.contentView.text = item.accountName
     }
 
-    override fun getItemCount(): Int = values.size
+    override fun getItemCount(): Int = accountList.size
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val idView: TextView = view.findViewById(R.id.item_number)

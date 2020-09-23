@@ -14,14 +14,14 @@ object DummyContent {
     /**
      * An array of sample (dummy) items.
      */
-    val ITEMS: MutableList<DummyItem> = ArrayList()
+    val ITEMS: MutableList<AccountDetail> = ArrayList()
 
     /**
      * A map of sample (dummy) items, by ID.
      */
-    val ITEM_MAP: MutableMap<String, DummyItem> = HashMap()
+    val ITEM_MAP: MutableMap<String, AccountDetail> = HashMap()
 
-    private val COUNT = 25
+    private val COUNT = 10
 
     init {
         // Add some sample items.
@@ -30,13 +30,13 @@ object DummyContent {
         }
     }
 
-    private fun addItem(item: DummyItem) {
+    private fun addItem(item: AccountDetail) {
         ITEMS.add(item)
-        ITEM_MAP.put(item.id, item)
+        ITEM_MAP.put(item.accountNo, item)
     }
 
-    private fun createDummyItem(position: Int): DummyItem {
-        return DummyItem(position.toString(), "Item " + position, makeDetails(position))
+    private fun createDummyItem(position: Int): AccountDetail {
+        return AccountDetail(position.toString(), "Account " + position, makeDetails(position))
     }
 
     private fun makeDetails(position: Int): String {
@@ -51,7 +51,9 @@ object DummyContent {
     /**
      * A dummy item representing a piece of content.
      */
-    data class DummyItem(val id: String, val content: String, val details: String) {
-        override fun toString(): String = content
+    data class AccountDetail(val accountNo: String,
+                             val accountName: String,
+                             val accountBalance: String) {
+        override fun toString(): String = accountName
     }
 }
